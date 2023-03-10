@@ -1,0 +1,31 @@
+{
+  "name": "nx-discord-bot",
+  "version": "0.0.1",
+  "description": "Nexus Central Official Multi-purpose Discord Bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nexus-Central/NX-Discord-Bot.git"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "nexus"
+  ],
+  "author": "Nexus Central",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Nexus-Central/NX-Discord-Bot/issues"
+  },
+  "homepage": "https://github.com/Nexus-Central/NX-Discord-Bot#readme",
+  "dependencies": {
+    "discord.js": "^14.7.1",
+    "dotenv": "^16.0.3"
+  },
+  "devDependencies": {
+    "eslint": "^8.35.0"
+  }
+}
