@@ -1,6 +1,3 @@
-// Export the below functions to be used in the index.js file
-module.exports = { formatUptime, formatMemoryUsage };
-
 const formatUptime = uptime => {
 	const seconds = Math.floor(uptime % 60);
 	const minutes = Math.floor((uptime / 60) % 60);
@@ -15,3 +12,5 @@ const formatMemoryUsage = memUsage => {
 	const memUsageString = `${memUsageMB} MB`;
 	return memUsageString;
 };
+
+module.exports = { formatUptime, formatMemoryUsage };

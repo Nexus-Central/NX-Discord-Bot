@@ -3,7 +3,8 @@ const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
 const dotenv = require('dotenv');
 const fs = require('node:fs');
 const path = require('node:path');
-const { formatUptime, formatMemoryUsage } = require('utils/stats.js');
+// formatUptime and formatMemoryUsage are exported from utils\stats.js
+const { formatUptime, formatMemoryUsage } = require('./utils/stats.js');
 
 // Dot env
 dotenv.config();
