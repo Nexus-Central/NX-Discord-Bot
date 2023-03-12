@@ -19,7 +19,7 @@ module.exports = {
 		await interaction.guild.members.cache.get(interaction.options.getUser('user').id).send(`You have been warned in ${interaction.guild.name} for ${interaction.options.getString('reason')}`);
 
 		// Send a message to the channel
-		await interaction.reply(`Warned ${interaction.options.getUser('user').tag} for ${interaction.options.getString('reason')}`);
+		await interaction.reply({ content: `Warned ${interaction.options.getUser('user').tag} for ${interaction.options.getString('reason')}`, ephemeral: true });
 
 		// Log the warning
 		console.log(`[MOD::WARN] ${interaction.user.tag} warned ${interaction.options.getUser('user').tag} for ${interaction.options.getString('reason')}`);
