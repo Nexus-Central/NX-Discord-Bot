@@ -4,6 +4,7 @@
   "description": "Nexus Central Official Multi-purpose Discord Bot",
   "main": "index.js",
   "scripts": {
+    "register": "node deploy-commands.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -23,7 +24,8 @@
   "homepage": "https://github.com/Nexus-Central/NX-Discord-Bot#readme",
   "dependencies": {
     "discord.js": "^14.7.1",
-    "dotenv": "^16.0.3"
+    "dotenv": "^16.0.3",
+    "node-fetch": "^3.3.0"
   },
   "devDependencies": {
     "eslint": "^8.35.0"
