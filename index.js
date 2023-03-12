@@ -33,6 +33,7 @@ for (const file of commandFiles) {
 // We use 'c' for the event parameter to keep it separate from the already defined 'client'
 client.once(Events.ClientReady, c => {
 	console.log(`Ready! Logged in ${c.user.tag}`);
+	updateBotStatus();
 });
 
 // When the client receives an interaction, run this code
@@ -58,6 +59,94 @@ client.on(Events.InteractionCreate, async interaction => {
 			await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
 		}
 	}
+});
+
+// Automatic Bot Status Report
+const botStatusChannelId = '1083711618103378018';
+
+// Defines a function to update the bot status message
+const updateBotStatus = async () => {
+	const botStatusChannel = client.channels.cache.get(botStatusChannelId);
+	if (botStatusChannel) {
+		const uptime = formatUptime(process.uptime());
+		const memUsage = formatMemoryUsage(process.memoryUsage().rss);
+		const statusMessage = {
+			embeds: [{
+				title: 'NEXUS CENTRAL - NX',
+				description: 'Bot is online!',
+				fields: [
+					{
+						name: 'Uptime',
+						value: uptime,
+						inline: true,
+					},
+					{
+						name: 'Memory Usage',
+						value: memUsage,
+						inline: true,
+					},
+				],
+				timestamp: new Date(),
+			}],
+		};
+		botStatusChannel.messages.fetch({ limit: 1 }).then(messages => {
+			const lastMessage = messages.first();
+			if (lastMessage && lastMessage.author.id === client.user.id) {
+				lastMessage.edit(statusMessage);
+				// Debbuging purposes
+				console.log('[DEBUG] Bot status message updated!');
+			}
+			else {
+				botStatusChannel.send(statusMessage);
+				// Debbuging purposes
+				console.log('[DEBUG] Bot status message sent!');
+			}
+		});
+	}
+};
+
+// Define functions to format uptime and memory usage
+const formatUptime = uptime => {
+	const seconds = Math.floor(uptime % 60);
+	const minutes = Math.floor((uptime / 60) % 60);
+	const hours = Math.floor(uptime / 3600 % 24);
+	const days = Math.floor(uptime / 86400);
+	const uptimeString = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+	return uptimeString;
+};
+
+const formatMemoryUsage = memUsage => {
+	const memUsageMB = Math.round(memUsage / 1024 / 1024 * 100) / 100;
+	const memUsageString = `${memUsageMB} MB`;
+	return memUsageString;
+};
+
+// Update the bot status message every 10 minutes
+setInterval(updateBotStatus, 10 * 60 * 1000);
+
+// Handle bot disconnects and update the bot status message
+client.on('disconnect', () => {
+	const botStatusChannel = client.channels.cache.get(botStatusChannelId);
+	if (botStatusChannel) {
+		botStatusChannel.messages.fetch({ limit: 1 }).then(messages => {
+			const lastMessage = messages.first();
+			if (lastMessage && lastMessage.author.id === client.user.id) {
+				const statusMessage = {
+					embeds: [{
+						title: 'NEXUS CENTRAL - NX',
+						description: 'Bot is offline!',
+						timestamp: new Date(),
+					}],
+				};
+				lastMessage.edit(statusMessage);
+			}
+		});
+	}
+});
+
+// Handle bot reconnects and update the bot status message
+client.on('reconnecting', () => {
+	updateBotStatus();
 });
 
 // Login to Discord with your client's token
