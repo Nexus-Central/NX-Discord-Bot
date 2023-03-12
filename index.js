@@ -3,6 +3,7 @@ const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
 const dotenv = require('dotenv');
 const fs = require('node:fs');
 const path = require('node:path');
+const { formatUptime, formatMemoryUsage } = require('utils/stats.js');
 
 // Dot env
 dotenv.config();
@@ -103,22 +104,6 @@ const updateBotStatus = async () => {
 			}
 		});
 	}
-};
-
-// Define functions to format uptime and memory usage
-const formatUptime = uptime => {
-	const seconds = Math.floor(uptime % 60);
-	const minutes = Math.floor((uptime / 60) % 60);
-	const hours = Math.floor(uptime / 3600 % 24);
-	const days = Math.floor(uptime / 86400);
-	const uptimeString = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-	return uptimeString;
-};
-
-const formatMemoryUsage = memUsage => {
-	const memUsageMB = Math.round(memUsage / 1024 / 1024 * 100) / 100;
-	const memUsageString = `${memUsageMB} MB`;
-	return memUsageString;
 };
 
 // Update the bot status message every 10 minutes
